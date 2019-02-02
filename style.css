@@ -1,0 +1,81 @@
+
+
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #333;
+}
+.column{
+    float:left;
+}
+
+.canvwrap{
+   width: 600;
+}
+canvas { 
+    width: 500px; 
+    height: 500px; 
+    padding: 0;
+    margin: 50px auto;
+    display: block;
+}
+
+.input{
+    margin: 50px 40px 30px 0;
+    background-color:#bbb;
+    box-sizing: border-box;
+    padding: 30px 30px;
+    height: 500;
+}
+
+.attr{
+    margin-bottom: 10px;
+}
+
+
+#clearFrame{
+    margin-left: 50px;
+    height: 30px;
+    width:100px;
+}
+#location{
+    width: 196px;
+}
+button{
+    float:left;
+    margin-right:5px;
+}
+.controls{
+    margin-left:38px;
+}
+.play{
+    width: 54px;
+}
+.prev{
+    width:30px
+}
+.next{
+    width:30px
+}
+.newFrame{
+    margin-bottom:5px;
+}
+#newFrame{
+    margin: 15px 0 0 50px;
+    height: 30px;
+    width:100px;
+
+}
+#keep{
+    float:left;
+    margin-left: 45px;
+}
+#boxText{
+    float:left;
+    font-size: 13px; 
+    line-height: 20px;
+    height:20px;
+    width:90px;
+    text-align: center;
+    margin-bottom:15px;
+}

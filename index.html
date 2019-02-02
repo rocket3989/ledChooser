@@ -1,0 +1,51 @@
+
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>Starting with webGL</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            body { margin: 0; }
+            
+        </style>
+    </head>
+    <body>
+        <div class = "column canvwrap">
+            <canvas id="canvas">Please use a browser that can use canvas</canvas>
+        </div>
+        <div class = "column input">
+            <div class="attr">
+                <input type="button" id="clearFrame" value="Clear Frame">       
+            </div>
+
+            <div class="attr location"> 
+                <input type="range" min="0" max="20" value="0" class="slider" id="location">
+            </div>
+
+            <div class="controls">
+                <button class='prev'>&lt;</button>
+                <button class='play'>play</button>
+                <button class='next'>&gt;</button>
+            </div>
+            <div class="attr newFrame">
+                <input type="button" id="newFrame" value="New Frame">       
+            </div>
+            <div class="attr checkbox keep">
+                <input type="checkbox" id="keep" name ="keep" value = 6> 
+                <div id="boxText">Keep Last Frame</div>
+            </div>
+            <div class="attr area">
+            <textarea rows="15" cols="25" id ="data"name="comment" form="usrform"> </textarea>
+            </div>
+            <div class="attr read">
+                <input type="button" id="read" value="Read Data">       
+            </div>
+            
+        </div>      
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
+        <script src="js/three.js"></script>
+        <script src="js/OrbitControls.js"></script>
+        <script src="js/Frame.js"></script>
+        <script src="/script.js"></script>
+    </body>
+</html>

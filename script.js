@@ -10,9 +10,6 @@ var playing = false;
 var animation = new Array();
 animation.push(new Frame());
 
-
-
-
 var positionLast = {
     x:0,
     y:0
@@ -108,19 +105,27 @@ function loadFrame(){
         else
             setOpacityColor(boxes.children[cube],offOpacity,offColor)
     }
-    readData();
+    dataOut();
+    updateSlider();
 }
-function readData(){
-    let data = 0;
-    for (i = 0; i < 27; i++){
-        data += Math.pow(2,31-i)*animation[currentFrame].getElement(i);
+
+function dataOut(){
+    let stringOut = "";
+    for(frame = 0; frame < animation.length; frame++){
+        let data = 0;
+        for (i = 0; i < 27; i++){
+            data += Math.pow(2,31-i)*animation[frame].getElement(i);
+        }
+        var output = data.toString(16);
+        for(i = data.toString(16).length; i < 8; i++)
+            output = "0" + output;
+        stringOut += "0x"+output + ",\n"
     }
-    //console.log(data);
-    var output = data.toString(16);
-    for(i = data.toString(16).length; i < 8; i++)
-        output = "0" + output;
-    $("#data").text("0x"+output);
-    
+    $("#data").val(stringOut);
+}
+function updateSlider(){
+    $(".slider").prop('max',animation.length-1);
+    $(".slider").val(currentFrame);
 }
 
 
@@ -129,7 +134,7 @@ $("#clearFrame").click(function(){
     for(var cube = 0; cube < 27; cube++)
         animation[currentFrame].setElement(cube,false);
     loadFrame(animation[currentFrame]);
-})
+});
 
 $(".play").click(function() {
     if($(this).text() == "play"){
@@ -140,8 +145,46 @@ $(".play").click(function() {
         $(this).text("play");
         playing = false;
     }
-}); 
-  
+});
+$("#newFrame").click(function(){
+    if($('#keep').is(':checked'))
+    animation.splice(currentFrame + 1, 0,new Frame(animation[currentFrame]));
+    else
+    animation.splice(currentFrame + 1, 0,new Frame());
+    currentFrame ++;
+    loadFrame();
+});
+$(".prev").click(function(){
+    currentFrame--;
+    if (currentFrame < 0)
+        currentFrame = 0;
+    loadFrame();
+});
+$(".next").click(function(){
+    currentFrame++;
+    if (currentFrame >= animation.length)
+    currentFrame = animation.length -1;
+    loadFrame();
+});
+$(".slider").on('input', function () {
+    $(this).trigger('change');
+});
+$(".slider").change(function(){
+    currentFrame = $(this).val();
+    loadFrame();
+});
+$("#read").click(function(){
+    let data = $("#data").val().split(',\n').filter(d => d);
+    animation.length = 0;
+    for(i = 0;i < data.length; i++){
+        animation.push(new Frame(data[i]));
+    }
+    if(data.length = 0)
+        animation.push(new Frame());
+    currentFrame = 0;
+    loadFrame();
+
+})
 
 $(canvas).mousedown(function(event){
     let rect = document.getElementById('canvas').getBoundingClientRect();
@@ -165,14 +208,11 @@ $(canvas).mouseup(function (event) {
             let intersect = intersects[0].object.index;
 
             animation[currentFrame].invertElement(intersect);
-            if(animation[currentFrame].getElement(intersect))
-                setOpacityColor(intersects[0].object,onOpacity,onColor);
-            else
-                setOpacityColor(intersects[0].object,offOpacity,offColor)
+            loadFrame();
 
         }
     }
-    readData();
+    dataOut();
 });
 
 
@@ -182,12 +222,20 @@ for(var cube = 0; cube < 27; cube++)
 loadFrame();
 
 
-
 function animate() {
     requestAnimationFrame( animate );
-    
     renderer.render( scene, camera );
+    if(playing && frameCount++ > 30){
+        currentFrame++
+        if (currentFrame >= animation.length)
+            currentFrame = 0;
+        loadFrame();
+        frameCount = 0;
+    
+    } 
+
 }
 
+frameCount = 0;
 
 animate();
